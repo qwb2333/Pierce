@@ -8,6 +8,9 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+go get github.com/golang/glog
+go get github.com/golang/protobuf
+
 go test -v github.com/qwb2333/Pierce/test
 if [ $? -ne 0 ]; then
     echo 'unitests failed. check whether protobuf is already install and $GOPATH, $GOBIN, $GOROOT is correct.'
