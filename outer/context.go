@@ -1,8 +1,8 @@
 package outer
 
 import (
-	"common"
-	"lib"
+	"github.com/qwb2333/Pierce/common"
+	"github.com/qwb2333/Pierce/lib"
 	"sync"
 )
 

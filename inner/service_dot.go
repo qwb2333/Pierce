@@ -1,8 +1,8 @@
 package inner
 
 import (
-	"idl"
-	"common"
+	"github.com/qwb2333/Pierce/idl"
+	"github.com/qwb2333/Pierce/common"
 	"fmt"
 	"net"
 	"github.com/golang/glog"

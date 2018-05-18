@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net"
 	"github.com/golang/glog"
-	"idl"
+	"github.com/qwb2333/Pierce/idl"
 	"time"
-	"common"
-	"lib"
+	"github.com/qwb2333/Pierce/common"
+	"github.com/qwb2333/Pierce/lib"
 )
 
 func (sv *Service) solveDotCenter(msg common.InnerOuterMsg) {

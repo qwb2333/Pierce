@@ -1,11 +1,11 @@
 package main
 
 import (
-	"config"
-	"inner"
+	"github.com/qwb2333/Pierce/config"
 	"flag"
 	"github.com/golang/glog"
-	"common"
+	"github.com/qwb2333/Pierce/outer"
+	"github.com/qwb2333/Pierce/common"
 )
 
 func main() {
@@ -13,8 +13,8 @@ func main() {
 	flag.Set("logtostderr", "true")
 	flag.Parse()
 
-
-	cf := config.NewConfig(config.ReadArgs(1, "config/inner.properties"))
+	cf := config.NewConfig(config.ReadArgs(1, "config/outer.properties"))
+	msgLists := config.ReadDotConf(config.ReadArgs(2, "config/outer_dot.conf"))
 
 	outerIp, ok := cf.ReadString("outerIp")
 	if !ok {
@@ -26,9 +26,10 @@ func main() {
 		glog.Fatal("outerPort is not valid.\n")
 	}
 
-	service := inner.NewService(common.OuterMsg {
+	service := outer.NewService(common.OuterMsg {
 		OuterIp: outerIp,
 		OuterPort: outerPort,
 	})
-	service.Run()
+
+	service.Run(msgLists)
 }

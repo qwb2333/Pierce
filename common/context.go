@@ -2,8 +2,8 @@ package common
 
 import (
 	"net"
-	"idl"
-	"lib"
+	"github.com/qwb2333/Pierce/idl"
+	"github.com/qwb2333/Pierce/lib"
 	"github.com/golang/glog"
 	"io"
 )

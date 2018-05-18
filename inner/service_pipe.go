@@ -1,15 +1,17 @@
-package outer
+package inner
 
 import (
-	"idl"
-	"github.com/golang/glog"
+	"github.com/qwb2333/Pierce/common"
+	"github.com/qwb2333/Pierce/idl"
 	"io"
-	"common"
+	"github.com/golang/glog"
+	"time"
+	"github.com/qwb2333/Pierce/lib"
 )
 
 func (sv *Service) solveMainPipeConn(mainPipeCtx common.MainPipeContext) {
 	var err error
-	action := &idl.PipeAction{}
+	action := idl.PipeAction{}
 	conn := mainPipeCtx.MainPipeConn
 	reader := mainPipeCtx.MainPipeReader
 	writer := mainPipeCtx.MainPipeWriter
@@ -25,8 +27,18 @@ func (sv *Service) solveMainPipeConn(mainPipeCtx common.MainPipeContext) {
 		}
 	}()
 
+	go func() {
+		for {
+			time.Sleep(time.Millisecond * lib.HEART_INTERVAL)
+			err = writer.WritePb(idl.NewActionAck())
+			if err != nil {
+				break
+			}
+		}
+	}()
+
 	for {
-		err = reader.ReadPb(action)
+		err = reader.ReadPb(&action)
 		if err != nil {
 			return
 		}
@@ -34,30 +46,14 @@ func (sv *Service) solveMainPipeConn(mainPipeCtx common.MainPipeContext) {
 		switch action.GetOption() {
 		case idl.PipeOption_ACK:
 			glog.Infof("mainPipeConn get ACK.\n")
-			err = writer.WritePb(idl.NewActionAck())
-			if err != nil {
-				return
-			}
-		case idl.PipeOption_DISCONNECT:
-			id := action.GetId()
-			intf, ok := sv.ctxMap.Load(id)
+			continue
 
-			glog.Infof("mainPipeConn id: %d disconnect.\n", id)
+		case idl.PipeOption_CONNECT:
+			glog.Infof("mainPipeConn get connect id: %d\n", action.GetId())
+			go sv.solveDotCenterConn(action, mainPipeCtx)
 
-			if ok {
-				ctx := intf.(*Context)
-				ctx.Lock()
-				if _, ok := sv.ctxMap.Load(id); ok {
-					ctx.WriteCh(false)
-				}
-				ctx.Unlock()
-			} else {
-				glog.Warningf("id: %d not exists.\n", id)
-			}
 		default:
 			glog.Warningf("mainPipeConn option %v not allowed.\n", action.GetOption())
 		}
 	}
-
-	return
 }

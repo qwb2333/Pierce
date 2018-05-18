@@ -1,7 +1,7 @@
 package inner
 
 import (
-	"common"
+	"github.com/qwb2333/Pierce/common"
 )
 
 type Context struct {

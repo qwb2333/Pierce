@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net"
 	"github.com/golang/glog"
-	"idl"
+	"github.com/qwb2333/Pierce/idl"
 	"time"
 	"io"
-	"common"
-	"lib"
+	"github.com/qwb2333/Pierce/common"
+	"github.com/qwb2333/Pierce/lib"
 )
 
 type Service struct {

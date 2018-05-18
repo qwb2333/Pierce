@@ -4,10 +4,10 @@ import (
 	"testing"
 	"io/ioutil"
 	"os"
-	"idl"
+	"github.com/qwb2333/Pierce/idl"
 	"github.com/golang/protobuf/proto"
 	"bytes"
-	"config"
+	"github.com/qwb2333/Pierce/config"
 )
 
 func TestConfig(t *testing.T) {

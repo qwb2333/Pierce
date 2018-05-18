@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"strconv"
-	"common"
+	"github.com/qwb2333/Pierce/common"
 	"github.com/golang/glog"
 	"os"
 )
