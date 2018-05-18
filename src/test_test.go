@@ -7,8 +7,7 @@ import (
 	"idl"
 	"github.com/golang/protobuf/proto"
 	"bytes"
-	"lib"
-	"fmt"
+	"config"
 )
 
 func TestConfig(t *testing.T) {
@@ -19,9 +18,9 @@ func TestConfig(t *testing.T) {
 	ioutil.WriteFile(fileName, []byte(str), os.ModePerm)
 	defer os.Remove(fileName)
 
-	config := lib.NewConfig(fileName)
-	host, _ := config.ReadString("outerIp")
-	port, _ := config.ReadInt("outerPort")
+	c := config.NewConfig(fileName)
+	host, _ := c.ReadString("outerIp")
+	port, _ := c.ReadInt("outerPort")
 	if port != 4910 || host != "127.0.0.1" {
 		t.Fatal("host or post is null.")
 	}
@@ -76,27 +75,6 @@ func TestPbRW(t *testing.T) {
 	}
 }
 
-type B struct {
-	X int
-}
-
-func (b *B) Print() {
-	fmt.Printf("[%x]\n", &b.X)
-}
-
-func call2(a B) {
-	a.Print()
-}
-
-func call(a B) {
-	call2(a)
-	a.Print()
-}
-
-func TestInterface(t *testing.T) {
-	b := B{X: 100}
-	call(b)
-}
 /*
 如果要实现多态的话，需要interface和struct,其中struct继承了那个interface
 然后对这个struct取&，其内容对应了interface，注意这时的interface并不是指针
