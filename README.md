@@ -21,11 +21,13 @@ github.com/golang/protobuf
 
 ### 安装
 ```
+# 设置好$GOPATH, $GOROOT, $GOBIN
+# 用go get github.com/qwb2333/Pierce 下载代码
 ./install.py
 ```
-之后二进制文件在/bin目录中
 
 ### 运行
+cd $GOBIN
 ./inner ../config/inner.properties
 
 ./outer ../config/outer.properties ../config/outer_dot.conf
