@@ -1,0 +1,20 @@
+package idl;
+
+enum PipeOption {
+    ACK = 1;
+    CONNECT = 2;
+    DISCONNECT = 3;
+    DATA = 4;
+    PIPE = 5;
+}
+message RemoteInfo {
+    required int32 port = 1;
+    required string ip = 2;
+}
+
+message PipeAction {
+    required PipeOption option = 1;
+    optional uint32 id = 2;
+    optional RemoteInfo remoteInfo = 3;
+    optional bytes data = 4;
+}
