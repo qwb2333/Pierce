@@ -28,6 +28,7 @@ github.com/golang/protobuf
 
 ### 运行
 cd $GOBIN
+
 ./inner ../config/inner.properties
 
 ./outer ../config/outer.properties ../config/outer_dot.conf
